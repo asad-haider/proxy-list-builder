@@ -22,6 +22,9 @@ Proxy list builder scrape proxies from following websites:
 * http://spys.one/en/non-anonymous-proxy-list/
 * http://www.thebigproxylist.com/
 * https://hugeproxies.com/home
+* https://www.7xter.com/2017/03/top-proxy-sites-best-proxy-servers.html
+* https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list.txt
+* https://raw.githubusercontent.com/opsxcq/proxy-list/master/list.txt
 
 ### Installation
 ```sh
@@ -34,10 +37,12 @@ $ node index.js
 ### Development
 Want to contribute? Great!
 
-Feel free to contribute on Github public repository.
+Feel free to contribute on [Github] public repository.
 ### Todos
  - Optimization and improvements in the code
  - Add more websites
 
  This is my first ever NodeJS project, so feel free to correct me if there is any issue
  Thanks 
+ 
+ [Github]: <https://github.com/asadhaider13/proxy-list-builder>
