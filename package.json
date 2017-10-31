@@ -1,11 +1,22 @@
 {
   "name": "proxy-list-builder",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "Node package to build proxy list from the free proxy listing websites and store them into mongodb",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/asadhaider13/proxy-list-builder.git"
+  },
+  "keywords": [
+    "proxies",
+    "proxy scraper",
+    "proxy list builder",
+    "proxies scraper",
+    "proxy list"
+  ],
   "author": "Asad Haider",
   "license": "ISC",
   "dependencies": {
