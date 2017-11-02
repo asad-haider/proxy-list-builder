@@ -1,6 +1,6 @@
 {
   "name": "proxy-list-builder",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Node package to build proxy list from the free proxy listing websites and store them into mongodb",
   "main": "index.js",
   "scripts": {
