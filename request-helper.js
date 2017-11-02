@@ -1,4 +1,3 @@
-var rp = require('request-promise')
 var request = require('request')
 var Proxy = require('./models/ProxyModel')
 

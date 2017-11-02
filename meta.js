@@ -155,4 +155,16 @@ module.exports = [{
         parse: scrapingHelper.parseProxiesUsingRegex,
         method: 'GET',
     },
+    {
+        url: 'https://www.blackhatworld.com/seo/100-scrapebox-proxies.297574/page-%d',
+        parse: scrapingHelper.parseProxiesUsingRegex,
+        method: 'GET',
+        maxLength: 97
+    },
+    {
+        url: 'https://www.blackhatworld.com/seo/gscraper-proxies.703493/page-%d',
+        parse: scrapingHelper.parseProxiesUsingRegex,
+        method: 'GET',
+        maxLength: 35
+    },
 ]

@@ -1,8 +1,5 @@
 var cheerio = require('cheerio')
 
-var proxyRegularExpression = new RegExp('(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[ \t:]+(\d{2,5})', 'g')
-
-// https://free-proxy-list.net/
 var parseFreeProxyList = function (url, body) {
     var proxies = [];
     var $ = cheerio.load(body);

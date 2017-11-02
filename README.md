@@ -25,6 +25,8 @@ Proxy list builder scrape proxies from following websites:
 * https://www.7xter.com/2017/03/top-proxy-sites-best-proxy-servers.html
 * https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list.txt
 * https://raw.githubusercontent.com/opsxcq/proxy-list/master/list.txt
+* https://www.blackhatworld.com/seo/100-scrapebox-proxies.297574/
+* https://www.blackhatworld.com/seo/gscraper-proxies.703493/
 
 ### Installation
 ```sh
@@ -35,14 +37,17 @@ $ npm install proxy-list-builder
 $ node index.js
 ```
 ### Development
-Want to contribute? Great!
-
+Want to contribute and make this tool better? Great!
 Feel free to contribute on [Github] public repository.
+
 ### Todos
  - Optimization and improvements in the code
  - Add more websites
 
- This is my first ever NodeJS project, so feel free to correct me if there is any issue
- Thanks 
+### Updates
+ - BlackHatWorld Scrapebox and GScraper proxies support added
+ - Minor fixes and improvements
+
+ This is my first ever NodeJS project, so feel free to correct me if there is any issue. 
  
  [Github]: <https://github.com/asadhaider13/proxy-list-builder>

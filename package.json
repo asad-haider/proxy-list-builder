@@ -4,7 +4,8 @@
   "description": "Node package to build proxy list from the free proxy listing websites and store them into mongodb",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,6 @@
     "cheerio": "^1.0.0-rc.2",
     "mongoose": "^4.12.4",
     "node-cron": "^1.2.1",
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2"
+    "request": "^2.83.0"
   }
 }
