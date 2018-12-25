@@ -309,7 +309,9 @@ var parse7Xter = function (url, body) {
 // }
 
 var parseProxiesUsingRegex = function (url, body) {
-    return body.match(/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[ \t:]+(\d{2,5})/g)
+    const proxies = body.match(/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[ \t:]+(\d{2,5})/g);
+    if (!proxies) return [];
+    return proxies
         .map(proxy => proxy.replace('\t', ':'))
         .map(proxy => ({
             ip: proxy.split(':')[0],
