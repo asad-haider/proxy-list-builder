@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var proxySchema = new Schema({
+const proxySchema = new Schema({
     ip: {
         type: String,
         required: true,
@@ -19,4 +19,4 @@ var proxySchema = new Schema({
     source: String
 });
 
-module.exports = mongoose.model('Proxy', proxySchema);;
+module.exports = mongoose.model('Proxy', proxySchema);

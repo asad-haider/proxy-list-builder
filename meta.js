@@ -1,5 +1,6 @@
-var scrapingHelper = require('./scraping-helper')
-module.exports = [{
+var scrapingHelper = require('./scraping-helper');
+module.exports = [
+    {
         url: 'https://free-proxy-list.net/',
         parse: scrapingHelper.parseFreeProxyList,
         method: 'GET'
@@ -131,20 +132,14 @@ module.exports = [{
     },
     {
         url: 'https://hugeproxies.com/home/page/%d/',
-        parse: scrapingHelper.parseHugeProxies,
+        parse: scrapingHelper.parseProxiesUsingRegex,
         method: 'GET',
-        maxLength: 3,
     },
     {
         url: 'https://www.7xter.com/2017/03/top-proxy-sites-best-proxy-servers.html',
         parse: scrapingHelper.parse7Xter,
         method: 'GET',
     },
-    // {
-    //     url: 'http://free-proxy.cz/en/',
-    //     parse: scrapingHelper.freeProxyDotCz,
-    //     method: 'GET',
-    // },
     {
         url: 'https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list.txt',
         parse: scrapingHelper.parseProxiesUsingRegex,
@@ -154,17 +149,5 @@ module.exports = [{
         url: 'https://raw.githubusercontent.com/opsxcq/proxy-list/master/list.txt',
         parse: scrapingHelper.parseProxiesUsingRegex,
         method: 'GET',
-    },
-    {
-        url: 'https://www.blackhatworld.com/seo/100-scrapebox-proxies.297574/page-%d',
-        parse: scrapingHelper.parseProxiesUsingRegex,
-        method: 'GET',
-        maxLength: 97
-    },
-    {
-        url: 'https://www.blackhatworld.com/seo/gscraper-proxies.703493/page-%d',
-        parse: scrapingHelper.parseProxiesUsingRegex,
-        method: 'GET',
-        maxLength: 35
-    },
-]
+    }
+];

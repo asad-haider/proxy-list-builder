@@ -15,7 +15,8 @@ var parseFreeProxyList = function (url, body) {
                 lastChecked: new Date(),
                 source: url
             });
-        } catch (error) {}
+        } catch (error) {
+        }
     });
     return proxies;
 }
@@ -41,7 +42,8 @@ var parseProxyNova = function (url, body) {
                 lastChecked: new Date(),
                 source: url
             });
-        } catch (error) {}
+        } catch (error) {
+        }
     });
     return proxies;
 }
@@ -61,7 +63,8 @@ var parseGatherProxy = function (url, body) {
                 lastChecked: new Date(),
                 source: url
             });
-        } catch (error) {}
+        } catch (error) {
+        }
     });
     return proxies;
 }
@@ -82,7 +85,8 @@ var parseFreeProxyListDotNet = function (url, body) {
                 lastChecked: new Date(),
                 source: url
             });
-        } catch (error) {}
+        } catch (error) {
+        }
     });
     return proxies;
 }
@@ -103,7 +107,8 @@ var parseNNTime = function (url, body) {
                 lastChecked: new Date(),
                 source: url
             });
-        } catch (error) {}
+        } catch (error) {
+        }
     });
     return proxies;
 }
@@ -124,7 +129,8 @@ var parseProxyListPlus = function (url, body) {
                 lastChecked: new Date(),
                 source: url
             });
-        } catch (error) {}
+        } catch (error) {
+        }
     });
     return proxies;
 }
@@ -150,7 +156,8 @@ var parseProxyHttp = function (url, body) {
                 source: url
             });
 
-        } catch (error) {}
+        } catch (error) {
+        }
     });
     return proxies;
 }
@@ -172,7 +179,8 @@ var parseSpysOne = function (url, body) {
                 lastChecked: new Date(),
                 source: url
             });
-        } catch (error) {}
+        } catch (error) {
+        }
     });
     return proxies;
 }
@@ -205,7 +213,8 @@ var parseCoolProxiesDotNet = function (url, body) {
                 });
 
             }
-        } catch (error) {}
+        } catch (error) {
+        }
     });
     return proxies;
 }
@@ -226,7 +235,8 @@ var parseBigProxyList = function (url, body) {
             working: true,
             source: url
         }))
-    } catch (error) {}
+    } catch (error) {
+    }
     return proxies;
 }
 
@@ -245,7 +255,8 @@ var parseHugeProxies = function (url, body) {
                 lastChecked: new Date(),
                 source: url
             });
-        } catch (error) {}
+        } catch (error) {
+        }
     });
     return proxies;
 }
@@ -267,7 +278,8 @@ var parse7Xter = function (url, body) {
                     source: url
                 });
             }
-        } catch (error) {}
+        } catch (error) {
+        }
     });
     return proxies;
 }
@@ -297,32 +309,32 @@ var parse7Xter = function (url, body) {
 // }
 
 var parseProxiesUsingRegex = function (url, body) {
-    var proxies = body.match(/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[ \t:]+(\d{2,5})/g).map(proxy => ({
-        ip: proxy.split(':')[0],
-        port: proxy.split(':')[1],
-        country: null,
-        anonymity: null,
-        working: true,
-        dateAdded: new Date(),
-        lastChecked: new Date(),
-        source: url
-    }))
-    return proxies;
+    return body.match(/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[ \t:]+(\d{2,5})/g)
+        .map(proxy => proxy.replace('\t', ':'))
+        .map(proxy => ({
+            ip: proxy.split(':')[0],
+            port: proxy.split(':')[1],
+            country: null,
+            anonymity: null,
+            working: true,
+            dateAdded: new Date(),
+            lastChecked: new Date(),
+            source: url
+        }));
 };
 
 module.exports = {
-    parseFreeProxyList: parseFreeProxyList,
-    parseProxyNova: parseProxyNova,
-    parseGatherProxy: parseGatherProxy,
-    parseFreeProxyListDotNet: parseFreeProxyListDotNet,
-    parseNNTime: parseNNTime,
-    parseProxyListPlus: parseProxyListPlus,
-    parseProxyHttp: parseProxyHttp,
-    parseSpysOne: parseSpysOne,
-    parseCoolProxiesDotNet: parseCoolProxiesDotNet,
-    parseBigProxyList: parseBigProxyList,
-    parseHugeProxies: parseHugeProxies,
-    parse7Xter: parse7Xter,
-    // freeProxyDotCz: freeProxyDotCz,
-    parseProxiesUsingRegex: parseProxiesUsingRegex,
-}
+    parseFreeProxyList,
+    parseProxyNova,
+    parseGatherProxy,
+    parseFreeProxyListDotNet,
+    parseNNTime,
+    parseProxyListPlus,
+    parseProxyHttp,
+    parseSpysOne,
+    parseCoolProxiesDotNet,
+    parseBigProxyList,
+    parseHugeProxies,
+    parse7Xter,
+    parseProxiesUsingRegex,
+};
