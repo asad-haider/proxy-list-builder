@@ -9,6 +9,12 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceRoot}\\index.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Proxy Spidey",
+            "program": "proxySpidey.js",
         }
     ]
 }

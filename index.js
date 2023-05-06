@@ -1,75 +1,129 @@
-var requestHelper = require('./request-helper');
-var scrapingHelper = require('./scraping-helper');
-var mongoose = require('mongoose');
-var Proxy = require('./models/ProxyModel');
-var meta = require('./meta');
-var cron = require('node-cron');
-var util = require('util');
+const { Spidey, DiscardItemError } = require("spidey");
+const sources = require("./sources");
+const dotnev = require("dotenv");
+const { MongoClient } = require("mongodb");
+dotnev.config();
 
-mongoose.connect('mongodb://127.0.0.1:27017/proxies', {
-    useMongoClient: true
-});
+class ValidationPipeline {
+  constructor(options) {}
 
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+  isValidHost(ip) {
+    const ipRegex = new RegExp(
+      "^([1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|" +
+        "25[0-5])\\.([0-9]|[1-9][0-9]|1[0-9]{2}|" +
+        "2[0-4][0-9]|25[0-5])\\.([0-9]|[1-9][0-9]|" +
+        "1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.([1-9]|" +
+        "[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|" +
+        "25[0-5])$"
+    );
+    return ipRegex.test(ip);
+  }
 
-var proxiesAdded = 0;
-var proxiesFound = 0;
-var insertIfNotExist = function (proxy) {
-    Proxy.findOne({
-        ip: proxy.ip,
-        port: proxy.port
-    }, function (err, data) {
-        if (err) return;
-        proxiesFound++;
-        if (!data && proxy.ip != '' && proxy.ip != '0' && proxy.port != '' && proxy.port != '0') {
-            var proxyModel = new Proxy(proxy);
-            proxyModel.save(function (err, result) {
-                proxiesAdded++;
-            });
-        }
+  isValidPort(port) {
+    const portRegex = new RegExp(
+      "^(0|[1-9]\\d{0,3}|[1-5]\\d{4}|6[0-4]\\d{3}" +
+        "|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$"
+    );
+    return portRegex.test(port);
+  }
+
+  process(data) {
+    if (!data.url) throw new DiscardItemError("Missing or Invalid URL");
+    if (this.isValidHost(data.ip) && this.isValidPort(data.port)) return data;
+    else throw new DiscardItemError("Invalid IP or Port");
+  }
+}
+
+class ManipulatePipeline {
+  constructor(options) {}
+
+  process(data) {
+    data.port = parseInt(data.port, 10);
+    if (data.type) data.type = data.type.toUpperCase();
+    if (data.anonymity) data.anonymity = data.anonymity.toUpperCase();
+    return data;
+  }
+}
+
+class MongoPipeline {
+  proxiesCol;
+  options;
+
+  constructor(options) {
+    this.options = options;
+    this.client = new MongoClient(options.mongoUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
-};
+  }
 
-var printStatus = function () {
-    console.log('Proxies Found: ' + proxiesFound);
-    console.log('Proxies Added: ' + proxiesAdded)
-};
+  async start() {
+    await this.client.connect();
+    const db = this.client.db(this.options.database);
+    this.proxiesCol = db.collection(this.options.collection);
+  }
 
-var counter = 0;
-var task = cron.schedule('0 */15 * * * *', function () {
-    console.log('scraping after every 15 minutes');
-    proxiesAdded = 0;
-    proxiesFound = 0;
-    counter = 0;
-    var totalRequests = meta.length;
-    meta.forEach(function (metaObj) {
-        metaObj.maxLength ? totalRequests += metaObj.maxLength : totalRequests += 0;
-        if (metaObj.maxLength) {
-            totalRequests--;
-            for (var index = 1; index <= metaObj.maxLength; index++) {
-                requestHelper(util.format(metaObj.url, index), metaObj.method, metaObj.body, function (err, response, body) {
-                    if (!err) {
-                        metaObj.parse(response.request.href, body).forEach(function (proxy) {
-                            insertIfNotExist(proxy);
-                        });
-                    }
-                    counter++;
-                    if (counter == totalRequests) printStatus()
-                })
-            }
-        } else {
-            requestHelper(metaObj.url, metaObj.method, metaObj.body, function (err, response, body) {
-                if (!err) {
-                    metaObj.parse(response.request.href, body).forEach(function (proxy) {
-                        insertIfNotExist(proxy);
-                    });
-                }
-                counter++;
-                if (counter == totalRequests) printStatus()
-            })
-        }
+  async process(data) {
+    const query = {
+      ip: data.ip,
+      port: data.port,
+    };
+    const update = {
+      $set: data,
+      $setOnInsert: {
+        crawledAt: new Date(),
+      },
+    };
+    await this.proxiesCol.updateOne(query, update, { upsert: true });
+    return data;
+  }
+
+  async complete() {
+    await this.client.close();
+  }
+}
+
+class ProxySpidey extends Spidey {
+  constructor() {
+    super({
+      retries: 3,
+      concurrency: 10,
+      mongoUrl: process.env.MONGO_URL,
+      database: process.env.MONGO_DB,
+      collection: process.env.MONGO_COLLECTION,
+      pipelines: [ValidationPipeline, ManipulatePipeline, MongoPipeline],
     });
-}, false);
+  }
 
-task.start();
+  start() {
+    for (const source of sources) {
+      const urls = this.castArray(source.url);
+      urls.forEach((url) => {
+        this.request(
+          {
+            url,
+            method: source.method,
+            body: source.body,
+            meta: { parse: source.parse },
+          },
+          this.parse.bind(this)
+        );
+      });
+    }
+  }
+
+  parse(response) {
+    const url = response.url;
+    const parser = response.meta.parse;
+    const proxies = parser(response.$, {
+      url,
+    });
+    proxies.forEach((proxy) => this.save(proxy));
+  }
+
+  castArray(...args) {
+    return args[0] instanceof Array ? args[0] : args;
+  }
+}
+
+new ProxySpidey().start();
