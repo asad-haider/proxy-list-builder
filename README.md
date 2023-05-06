@@ -1,53 +1,57 @@
 # Proxy List Builder
-Proxy List builder is a tool to scrape proxies from many different websites. It is used to scrape proxies after every x minutes and store them into database.
 
-### Website
-Proxy list builder scrape proxies from following websites:
-* https://free-proxy-list.net/
-* https://www.us-proxy.org/
-* https://www.sslproxies.org/
-* https://www.socks-proxy.net/
-* https://www.proxynova.com/proxy-server-list/
-* http://www.gatherproxy.com/
-* http://www.gatherproxy.com/
-* http://list.proxylistplus.com/Fresh-HTTP-Proxy-List-1
-* https://proxyhttp.net/free-list/anonymous-server-hide-ip-address/1#proxylist
-* https://sockslist.net/proxy/server-socks-hide-ip-address/1#proxylist
-* https://sockslist.net/list/proxy-socks-5-list/1#proxylist
-* https://www.cool-proxy.net/proxies/http_proxy_list/sort:score/direction:desc
-* http://spys.one/en/free-proxy-list/
-* http://spys.one/en/https-ssl-proxy/
-* http://spys.one/en/socks-proxy-list/
-* http://spys.one/en/http-proxy-list/
-* http://spys.one/en/non-anonymous-proxy-list/
-* http://www.thebigproxylist.com/
-* https://hugeproxies.com/home
-* https://www.7xter.com/2017/03/top-proxy-sites-best-proxy-servers.html
-* https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list.txt
-* https://raw.githubusercontent.com/opsxcq/proxy-list/master/list.txt
-* https://www.blackhatworld.com/seo/100-scrapebox-proxies.297574/
-* https://www.blackhatworld.com/seo/gscraper-proxies.703493/
+Proxy List Builder is a powerful tool designed to scrape proxy servers from various websites. It enables you to obtain free proxies from different sources and store them in a MongoDB database. By using this tool, you can easily access a list of functional and reliable proxies, which can be useful for different purposes.
 
-### Installation
+## Supported Websites
+
+Proxy List Builder can extract proxies from the following websites:
+
+- https://free-proxy-list.net/
+- https://www.us-proxy.org/
+- https://www.sslproxies.org/
+- https://www.socks-proxy.net/
+- https://www.proxynova.com/proxy-server-list/
+
+## Installation
+
+To use Proxy List Builder, you need to clone the repository from Github:
+
 ```sh
-$ npm install proxy-list-builder
+$ git clone https://github.com/asad-haider/proxy-list-builder
 ```
-### Run
+
+After cloning, navigate to the project directory and install the required dependencies using the following command:
+
+```sh
+$ npm install
+```
+
+## Usage
+
+To start using Proxy List Builder, you need to run the following command in the terminal:
+
 ```sh
 $ node index.js
 ```
-### Development
-Want to contribute and make this tool better? Great!
-Feel free to contribute on [Github] public repository.
 
-### Todos
- - Optimization and improvements in the code
- - Add more websites
+This will execute the script, and you can monitor the output to see the status of the scraping process.
 
-### Updates
- - BlackHatWorld Scrapebox and GScraper proxies support added
- - Minor fixes and improvements
+## Development
 
- This is my first ever NodeJS project, so feel free to correct me if there is any issue. 
- 
- [Github]: <https://github.com/asadhaider13/proxy-list-builder>
+If you want to contribute to the development of this tool, you can visit the project's public repository on Github. You can clone the repository, make changes, and submit a pull request.
+
+## TODO and Roadmap
+
+The Proxy List Builder project has some features that we plan to add in the future, including:
+
+- Adding support for more websites.
+- Checking whether a proxy is working or not.
+- Check response time of proxy.
+
+## Updates
+
+The Proxy List Builder project has recently undergone major updates, including:
+
+- The tool was rewritten using the Spidey framework, which is more efficient and reliable.
+- We removed websites that have invalid proxies or are no longer operational.
+- We made significant code changes and cleanup to improve the overall quality of the codebase.
